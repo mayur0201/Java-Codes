@@ -1,63 +1,50 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DuplicateString {
-    
-    public static  void main(String[] args)
-    {
-        String[] arr = {"Abc" , "Axy" , "Abc" , "Yyy"};
-       
-        System.out.println("Duplicate Value in Array = " + duplicateString(arr));
-        
+
+    public static void main(String[] args) {
+        String[] arr = {"aBc", "Axy", "Abc", "Yyy", "axy"};
+
+        List<String> lst = duplicateString(arr);
+
+
+
+        if (lst.isEmpty()) {
+            System.out.println("No Duplicate String in array");
+        } else {
+            System.out.println("Duplicate String(s) in an Array :");
+            for (String ax : lst) {
+                System.out.println(ax);
+            }
+        }
     }
 
-//    Using HashMap
-    private static String duplicateString(String[] arr) {
+    //    Using HashMap
+    private static List<String> duplicateString(String[] arr) {
 
-        HashMap<String , Integer> map = new HashMap<>() ;
+        HashMap<String, Integer> map = new HashMap<>();
 
-        for(String var : arr)
-        {
-            Integer count = map.get(var);
+        for (String var : arr) {
+            String key = var.toLowerCase();
+            Integer count = map.get(key);
 
-            if (count == null)
-            {
-                map.put(var,1);
-            }
-            else
-            {
-                map.put(var, ++count);
+
+
+            if (count == null) {
+                map.put(key, 1);
+            } else {
+                map.put(key, ++count);
             }
         }
 
-        Set<Map.Entry<String, Integer>> a =map.entrySet();
-        for(Map.Entry<String, Integer> x :a)
-        {
-            if (x.getValue()>1)
-            {
-                return x.getKey();
-            }
-        }
 
-        return  null;
+        List<String> ls
+                = map.entrySet().stream().filter(x -> x.getValue() > 1).map(Map.Entry::getKey).collect(Collectors.toList());
+
+
+        return ls;
     }
-
-//    Using HashSet
-//    private static String duplicateString(String[] arr) {
-//
-//        Set<String> set = new HashSet<>();
-//        for(String var:arr)
-//        {
-//            if(!set.add(var))
-//            {
-//              return var;
-//            }
-//
-//        }
-//        return null;
-//    }
 
 
 }
